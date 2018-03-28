@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity">
+
+    <EditText
+        android:id="@+id/id_et"
+        android:hint="学号"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="46dp" />
+
+    <EditText
+        android:id="@+id/name_et"
+        android:hint="姓名"
+        android:layout_width="match_parent"
+        android:layout_height="46dp" />
+
+    <Button
+        android:id="@+id/choice_portrait_btn"
+        android:text="选择照片"
+        android:layout_width="match_parent"
+        android:layout_height="46dp" />
+
+    <Button
+        android:id="@+id/submit_btn"
+        android:text="提交"
+        android:layout_width="match_parent"
+        android:layout_height="46dp" />
+
+    <ImageView
+        android:id="@+id/portrait_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>
