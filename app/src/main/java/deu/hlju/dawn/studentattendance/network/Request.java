@@ -1,5 +1,9 @@
 package deu.hlju.dawn.studentattendance.network;
 
+import android.util.Base64;
+
+import com.avos.avoscloud.signature.Base64Encoder;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +46,7 @@ public class Request {
         static Request request = new Request();
     }
 
-    private Map<String, String> getBaseParames() {
+    public Map<String, String> getBaseParames() {
         Map<String, String> params = new HashMap<>();
         params.put("api_key", Constants.FACE_API_KEY);
         params.put("api_secret", Constants.FACE_API_SECRET);
@@ -52,6 +56,12 @@ public class Request {
     public Map<String, String> getDetactPatames(String imageUrl) {
         Map<String, String> parames = getBaseParames();
         parames.put("image_url", imageUrl);
+        return parames;
+    }
+
+    public Map<String, String> getDetactPatames(byte[] bytes) {
+        Map<String, String> parames = getBaseParames();
+        parames.put("image_base64", Base64.encodeToString(bytes, Base64.DEFAULT));
         return parames;
     }
 
@@ -85,6 +95,13 @@ public class Request {
         Map<String, String> parames = getBaseParames();
         parames.put("outer_id", Constants.OUTER_ID);
         parames.put("image_url", url);
+        return parames;
+    }
+
+    public Map<String, String> getSearchPatames(byte[] bytes) {
+        Map<String, String> parames = getBaseParames();
+        parames.put("outer_id", Constants.OUTER_ID);
+        parames.put("image_base64", Base64.encodeToString(bytes, Base64.DEFAULT));
         return parames;
     }
 }

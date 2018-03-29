@@ -7,15 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -23,10 +19,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseActivity;
+import deu.hlju.dawn.studentattendance.bean.FaceDetectResult;
+import deu.hlju.dawn.studentattendance.network.Request;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class CameraActivity extends BaseActivity implements SurfaceHolder.Callback {
@@ -79,18 +81,13 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
         myAutoFocusCallback1 = new Camera.AutoFocusCallback() {
 
             public void onAutoFocus(boolean success, Camera camera) {
-                // TODO Auto-generated method stub
-                if (success)//success表示对焦成功
-                {
+                //success表示对焦成功
+                if (success){
                     issuccessfocus++;
                     if (issuccessfocus <= 1)
                         mHandler.sendEmptyMessage(only_auto_focus);
-                    Log.i("qtt", "myAutoFocusCallback1: success..." + issuccessfocus);
                 } else {
-                    //if (issuccessfocus == 0) {
                     mHandler.sendEmptyMessage(only_auto_focus);
-                    //}
-                    Log.i("qtt", "myAutoFocusCallback1: 失败...");
                 }
             }
         };
@@ -113,10 +110,27 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
                     public void onPictureTaken(byte[] bytes, Camera camera) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         ImageView iv = new ImageView(CameraActivity.this);
-                        iv.setImageBitmap(convert(bitmap, bitmap.getWidth(), bitmap.getHeight()));
+                        bitmap = convert(bitmap, bitmap.getWidth(), bitmap.getHeight());
+                        iv.setImageBitmap(bitmap);
                         new AlertDialog.Builder(CameraActivity.this)
                                 .setView(iv)
                                 .show();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                        Request.getSingle().getApi().getFaceDetect(Request.getSingle().getDetactPatames(baos.toByteArray()))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Consumer<FaceDetectResult>() {
+                                    @Override
+                                    public void accept(FaceDetectResult faceDetectResult) throws Exception {
+                                    }
+                                }, new Consumer<Throwable>() {
+                                    @Override
+                                    public void accept(Throwable throwable) throws Exception {
+                                    }
+                                });
+
+
                         camera.startPreview();
                     }
                 });
@@ -142,6 +156,7 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
         List<Camera.Size> sizeList = parameters.getSupportedPreviewSizes();//获取所有支持的camera尺寸
         Camera.Size optionSize = getOptimalPreviewSize(sizeList, surfaceView.getWidth(), surfaceView.getHeight());//获取一个最为适配的屏幕尺寸
         parameters.setPreviewSize(optionSize.width, optionSize.height);//把只存设置给parameters
+        parameters.setPictureSize(640, 480);
         camera.setParameters(parameters);//把parameters设置给camera上
         camera.startPreview();//开始预览
         camera.setDisplayOrientation(270);//将预览旋转
