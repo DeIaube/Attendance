@@ -3,42 +3,30 @@ package deu.hlju.dawn.studentattendance.ui.camera;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseActivity;
-import deu.hlju.dawn.studentattendance.bean.FaceDetectResult;
-import deu.hlju.dawn.studentattendance.network.Request;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 
-public class CameraActivity extends BaseActivity implements SurfaceHolder.Callback {
+public class CameraActivity extends BaseActivity implements SurfaceHolder.Callback, CameraContract.View {
 
 
-    private SurfaceView surfaceView;//预览摄像头
+    private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
-    private Button button;//拍照按钮
+    private Button button;
     private Camera camera;
     private Camera.AutoFocusCallback myAutoFocusCallback1 = null;//只对焦不拍照
+    private CameraContract.Presenter mPresenter;
     public static final int only_auto_focus = 110;
     int issuccessfocus = 0;
 
@@ -47,7 +35,6 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
 
         @Override
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             super.handleMessage(msg);
             switch (msg.what) {
                 case only_auto_focus:
@@ -78,8 +65,8 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
     private void initData() {
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
+        mPresenter = new CameraPresenter(this, this);
         myAutoFocusCallback1 = new Camera.AutoFocusCallback() {
-
             public void onAutoFocus(boolean success, Camera camera) {
                 //success表示对焦成功
                 if (success){
@@ -108,47 +95,12 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
                 camera.takePicture(null, null, new Camera.PictureCallback() {
                     @Override
                     public void onPictureTaken(byte[] bytes, Camera camera) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        ImageView iv = new ImageView(CameraActivity.this);
-                        bitmap = convert(bitmap, bitmap.getWidth(), bitmap.getHeight());
-                        iv.setImageBitmap(bitmap);
-                        new AlertDialog.Builder(CameraActivity.this)
-                                .setView(iv)
-                                .show();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                        Request.getSingle().getApi().getFaceDetect(Request.getSingle().getDetactPatames(baos.toByteArray()))
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Consumer<FaceDetectResult>() {
-                                    @Override
-                                    public void accept(FaceDetectResult faceDetectResult) throws Exception {
-                                    }
-                                }, new Consumer<Throwable>() {
-                                    @Override
-                                    public void accept(Throwable throwable) throws Exception {
-                                    }
-                                });
-
-
+                        mPresenter.startSearchFace(bytes);
                         camera.startPreview();
                     }
                 });
             }
         });
-    }
-
-
-    Bitmap convert(Bitmap a, int width, int height) {
-        int w = a.getWidth();
-        int h = a.getHeight();
-        Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
-        Canvas cv = new Canvas(newb);
-        Matrix m = new Matrix();
-        m.postRotate(90);  //旋转-90度
-        Bitmap new2 = Bitmap.createBitmap(a, 0, 0, w, h, m, true);
-        cv.drawBitmap(new2, new Rect(0, 0, new2.getWidth(), new2.getHeight()),new Rect(0, 0, width, height), null);
-        return newb;
     }
 
     private void initCamera() {
@@ -200,15 +152,13 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
         Camera.Size optimalSize = null;
         double minDiff = Double.MAX_VALUE;
 
-        int targetHeight = h;
-
         // Try to find an size match aspect ratio and size
         for (Camera.Size size : sizes) {
             double ratio = (double) size.width / size.height;
             if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
-            if (Math.abs(size.height - targetHeight) < minDiff) {
+            if (Math.abs(size.height - h) < minDiff) {
                 optimalSize = size;
-                minDiff = Math.abs(size.height - targetHeight);
+                minDiff = Math.abs(size.height - h);
             }
         }
 
@@ -216,9 +166,9 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
         if (optimalSize == null) {
             minDiff = Double.MAX_VALUE;
             for (Camera.Size size : sizes) {
-                if (Math.abs(size.height - targetHeight) < minDiff) {
+                if (Math.abs(size.height - h) < minDiff) {
                     optimalSize = size;
-                    minDiff = Math.abs(size.height - targetHeight);
+                    minDiff = Math.abs(size.height - h);
                 }
             }
         }
@@ -227,5 +177,10 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, CameraActivity.class));
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

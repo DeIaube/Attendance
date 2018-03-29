@@ -13,6 +13,8 @@ public class Constants {
 
     public static final String OUTER_ID = "attendance_face_set";
 
+    public static final double FACE_SEARCH_DEFAULT_CONFIDENCE = 70;
+
     public static final boolean IS_TEST = true;
 
 }
