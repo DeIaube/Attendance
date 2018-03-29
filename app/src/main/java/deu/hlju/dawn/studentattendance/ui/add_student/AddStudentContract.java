@@ -5,10 +5,6 @@ import android.content.Context;
 import deu.hlju.dawn.studentattendance.base.MvpPresenter;
 import deu.hlju.dawn.studentattendance.base.MvpView;
 
-/**
- * Created by Dawn on 2018/3/26.
- */
-
 public interface AddStudentContract {
     interface View extends MvpView{
         void showProgress();

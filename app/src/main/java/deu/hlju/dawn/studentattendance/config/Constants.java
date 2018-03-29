@@ -1,9 +1,5 @@
 package deu.hlju.dawn.studentattendance.config;
 
-/**
- * Created by Dawn on 2018/3/26.
- */
-
 public class Constants {
     public static final String CLOUD_APP_ID = "toFql8GrRoNwpiV45Luma71S-gzGzoHsz";
     public static final String CLOUD_APP_KEY = "nFfbtfG6iFpjd9BJ7IvFXq2H";

@@ -29,10 +29,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by Dawn on 2018/3/26.
- */
-
 public class AddStudentPresenter extends AddStudentContract.Presenter{
 
 

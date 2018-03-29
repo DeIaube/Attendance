@@ -58,7 +58,7 @@ public class ShowStudentAdapter extends RecyclerView.Adapter<ShowStudentAdapter.
         TextView idTv;
         CircleImageView portraitCiv;
 
-        public ShowStudentViewHolder(View itemView) {
+        ShowStudentViewHolder(View itemView) {
             super(itemView);
             nameTv = itemView.findViewById(R.id.name_tv);
             idTv = itemView.findViewById(R.id.id_tv);
