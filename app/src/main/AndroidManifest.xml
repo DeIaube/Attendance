@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
@@ -40,7 +40,8 @@
             android:name=".ui.show_student.ShowStudentActivity"
             android:label="@string/title_activity_show_student"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.camera.CameraActivity"></activity>
+        <activity android:name=".ui.camera.CameraActivity" />
+        <activity android:name=".ui.schedule.ScheduleActivity"></activity>
     </application>
 
 </manifest>
