@@ -1,9 +1,4 @@
-package com.shallcheek.timetale;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+package deu.hlju.dawn.studentattendance.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,11 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * 课表显示View
- *
- * @author shallcheek
- */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import deu.hlju.dawn.studentattendance.R;
+import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
+
 public class TimeTableView extends LinearLayout {
     /**
      * 配色数组
@@ -36,13 +34,13 @@ public class TimeTableView extends LinearLayout {
             R.drawable.select_label_yi, R.drawable.select_label_wuw};
     private final static int START = 0;
     //最大节数
-    public final static int MAXNUM = 12;
+    public final static int MAXNUM = 10;
     //显示到星期几
     public final static int WEEKNUM = 7;
     /**
      * 单个View高度
      */
-    private final static int TIME_TABLE_HEIGHT = 50;
+    private final static int TIME_TABLE_HEIGHT = 75;
     /**
      * 线的高度
      */
@@ -294,7 +292,7 @@ public class TimeTableView extends LinearLayout {
                 android.R.color.white));
         mTimeTableNameView.setTextSize(16);
         mTimeTableNameView.setGravity(Gravity.CENTER);
-        mTimeTableNameView.setText(model.getName() + "@" + model.getClassroom());
+        mTimeTableNameView.setText(model.getName() + "@" + model.getTeacher());
 
         mTimeTableView.addView(mTimeTableNameView);
         mTimeTableView.addView(getWeekHorizontalLine());
@@ -304,7 +302,7 @@ public class TimeTableView extends LinearLayout {
         mTimeTableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), model.getName() + "@" + model.getClassroom(), Toast.LENGTH_LONG).show();
+                // Todo 课程表点击事件
             }
         });
         return mTimeTableView;

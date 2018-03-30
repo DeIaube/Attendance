@@ -15,6 +15,7 @@ import deu.hlju.dawn.studentattendance.bean.FaceSetRemoveResult;
 import deu.hlju.dawn.studentattendance.network.Request;
 import deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity;
 import deu.hlju.dawn.studentattendance.ui.camera.CameraActivity;
+import deu.hlju.dawn.studentattendance.ui.schedule.ScheduleActivity;
 import deu.hlju.dawn.studentattendance.ui.show_student.ShowStudentActivity;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -64,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         Button btn8 = new Button(this);
         btn8.setText("摄像头预览");
         ll.addView(btn8);
+
+        Button btn9 = new Button(this);
+        btn9.setText("查看课程表");
+        ll.addView(btn9);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +218,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 CameraActivity.start(MainActivity.this);
+            }
+        });
+
+        btn9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ScheduleActivity.start(MainActivity.this);
             }
         });
 

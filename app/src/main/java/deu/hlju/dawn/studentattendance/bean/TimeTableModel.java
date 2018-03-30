@@ -1,29 +1,31 @@
-package com.shallcheek.timetale;
+package deu.hlju.dawn.studentattendance.bean;
 
 public class TimeTableModel {
-	private int id;
 	private int startnum;
 	private int endnum;
 	private int week;
-	private String starttime="";
-	private String endtime="";
-	private String name="";
-	private String teacher="";
-	private String classroom="";
-	private String weeknum="";
+	private String id;
 
-	@Override
-	public String toString() {
-		return "TimeTableModel [id=" + id + ", startnum=" + startnum
-				+ ", endnum=" + endnum + ", week=" + week + ", starttime="
-				+ starttime + ", endtime=" + endtime + ", name=" + name
-				+ ", teacher=" + teacher + ", classroom=" + classroom
-				+ ", weeknum=" + weeknum + "]";
+	public TimeTableModel(int startnum, int endnum, int week, String id, String name, String teacher) {
+		this.startnum = startnum;
+		this.endnum = endnum;
+		this.week = week;
+		this.id = id;
+		this.name = name;
+		this.teacher = teacher;
 	}
 
-	public int getId() {
+	public String getId() {
+
 		return id;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	private String name="";
+	private String teacher="";
 
 	public int getStartnum() {
 		return startnum;
@@ -37,32 +39,12 @@ public class TimeTableModel {
 		return week;
 	}
 
-	public String getStarttime() {
-		return starttime;
-	}
-
-	public String getEndtime() {
-		return endtime;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public String getTeacher() {
 		return teacher;
-	}
-
-	public String getClassroom() {
-		return classroom;
-	}
-
-	public String getWeeknum() {
-		return weeknum;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setStartnum(int startnum) {
@@ -77,47 +59,21 @@ public class TimeTableModel {
 		this.week = week;
 	}
 
-	public void setStarttime(String starttime) {
-		this.starttime = starttime;
-	}
-
-	public void setEndtime(String endtime) {
-		this.endtime = endtime;
-	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setTeacher(String teacher) {
-		this.teacher = teacher;
-	}
-
-	public void setClassroom(String classroom) {
-		this.classroom = classroom;
-	}
-
-	public void setWeeknum(String weeknum) {
-		this.weeknum = weeknum;
-	}
-	public TimeTableModel() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public TimeTableModel(int id, int startnum, int endnum, int week,
-			String starttime, String endtime, String name, String teacher,
-			String classroom, String weeknum) {
-		super();
-		this.id = id;
+	public TimeTableModel(int startnum, int endnum, int week, String name, String teacher) {
 		this.startnum = startnum;
 		this.endnum = endnum;
 		this.week = week;
-		this.starttime = starttime;
-		this.endtime = endtime;
 		this.name = name;
 		this.teacher = teacher;
-		this.classroom = classroom;
-		this.weeknum = weeknum;
+	}
+
+	public void setTeacher(String teacher) {
+		this.teacher = teacher;
 	}
 
 }
