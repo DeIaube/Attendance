@@ -1,18 +1,31 @@
 package deu.hlju.dawn.studentattendance.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.SaveCallback;
+
+import java.util.List;
+
+import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.bean.FaceDetectResult;
 import deu.hlju.dawn.studentattendance.bean.FaceSearchResult;
 import deu.hlju.dawn.studentattendance.bean.FaceSetCreateResult;
 import deu.hlju.dawn.studentattendance.bean.FaceSetDetailResult;
 import deu.hlju.dawn.studentattendance.bean.FaceSetRemoveResult;
+import deu.hlju.dawn.studentattendance.bean.Project;
 import deu.hlju.dawn.studentattendance.network.Request;
+import deu.hlju.dawn.studentattendance.ui.Console.ConsoleActivity;
 import deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity;
 import deu.hlju.dawn.studentattendance.ui.camera.CameraActivity;
 import deu.hlju.dawn.studentattendance.ui.schedule.ScheduleActivity;
@@ -69,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         Button btn9 = new Button(this);
         btn9.setText("查看课程表");
         ll.addView(btn9);
+
+        Button btn10 = new Button(this);
+        btn10.setText("跳转控制台");
+        ll.addView(btn10);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +242,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ScheduleActivity.start(MainActivity.this);
+            }
+        });
+
+        btn10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConsoleActivity.start(MainActivity.this);
             }
         });
 

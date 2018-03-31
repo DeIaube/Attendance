@@ -20,6 +20,7 @@
     <string name="cancel">取消</string>
     <string name="network_error">请检查网络后重试</string>
     <string name="title_activity_show_student">ShowStudentActivity</string>
+    <string name="title_activity_console">ConsoleActivity</string>
     <!--common-->
 
 </resources>

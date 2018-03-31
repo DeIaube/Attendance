@@ -41,7 +41,11 @@
             android:label="@string/title_activity_show_student"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.camera.CameraActivity" />
-        <activity android:name=".ui.schedule.ScheduleActivity"></activity>
+        <activity android:name=".ui.schedule.ScheduleActivity" />
+        <activity
+            android:name=".ui.Console.ConsoleActivity"
+            android:label="@string/title_activity_console"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
