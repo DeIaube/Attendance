@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,11 +33,17 @@ public class AddStudnetActivity extends BaseActivity implements AddStudentContra
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_add_studnet;
+        return R.layout.activity_add_student;
     }
 
     @Override
     protected void init() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         mSubmitBtn = findViewById(R.id.submit_btn);
         mChoicePortraotBtn = findViewById(R.id.choice_portrait_btn);
         mNameEt = findViewById(R.id.name_et);
@@ -122,5 +130,13 @@ public class AddStudnetActivity extends BaseActivity implements AddStudentContra
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, AddStudnetActivity.class));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

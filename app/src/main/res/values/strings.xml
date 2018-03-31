@@ -18,6 +18,12 @@
     <string name="console_room_name_id_empty">教室ID与名称不能为空</string>
     <!--Console-->
 
+    <!--Activity-->
+    <string name="title_activity_show_student">展示学生</string>
+    <string name="title_activity_add_student">添加学生</string>
+    <string name="title_activity_console">控制台</string>
+    <!--Activity-->
+
     <!--common-->
     <string name="file_not_exists">文件不存在</string>
     <string name="alert">提示</string>
@@ -25,8 +31,6 @@
     <string name="cancel">取消</string>
     <string name="seccess">成功</string>
     <string name="network_error">请检查网络后重试</string>
-    <string name="title_activity_show_student">展示学生</string>
-    <string name="title_activity_console">控制台</string>
     <!--common-->
 
 </resources>

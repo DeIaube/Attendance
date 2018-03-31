@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="?attr/actionBarSize"
     tools:context="deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity">
 
     <EditText
@@ -35,6 +36,5 @@
         android:id="@+id/portrait_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </LinearLayout>
