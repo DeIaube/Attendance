@@ -6,6 +6,8 @@ import java.util.List;
 
 import deu.hlju.dawn.studentattendance.base.MvpPresenter;
 import deu.hlju.dawn.studentattendance.base.MvpView;
+import deu.hlju.dawn.studentattendance.bean.Project;
+import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
 
 
@@ -15,6 +17,8 @@ public interface ConsoleContract {
         void showProgress();
         void hideProgress();
         void showMsg(String msg);
+        void showProject(List<Project> projects);
+        void showRoom(List<Room> rooms);
     }
 
     abstract class Presenter extends MvpPresenter {
@@ -27,6 +31,10 @@ public interface ConsoleContract {
             start();
         }
 
-        protected abstract void initData();
+        protected abstract void loadData();
+        protected abstract void addProject(String id, String name);
+        protected abstract void showProject();
+        protected abstract void addRoom(String id, String name);
+        protected abstract void showRoom();
     }
 }

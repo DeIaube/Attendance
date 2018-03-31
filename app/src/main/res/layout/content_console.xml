@@ -1,26 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/console_srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="deu.hlju.dawn.studentattendance.ui.Console.ConsoleActivity"
     tools:showIn="@layout/activity_console">
 
-    <Button
-        android:id="@+id/btn1"
-        android:text="增加课程"
-        android:onClick="click"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn2"
-        android:text="查看课程"
-        android:onClick="click"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn1"
+            android:text="增加课程"
+            android:onClick="click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn2"
+            android:text="查看课程"
+            android:onClick="click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn3"
+            android:text="增加学生"
+            android:onClick="click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn4"
+            android:text="查看学生"
+            android:onClick="click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn5"
+            android:text="增加教室"
+            android:onClick="click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn6"
+            android:text="查看教室"
+            android:onClick="click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
