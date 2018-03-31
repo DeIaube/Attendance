@@ -3,7 +3,7 @@ package deu.hlju.dawn.studentattendance.bean;
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
-@AVClassName("project")
+@AVClassName("Project")
 public class Project extends AVObject {
 
     public void setId(String id) {
