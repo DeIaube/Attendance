@@ -8,14 +8,21 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import deu.hlju.dawn.studentattendance.R;
+import deu.hlju.dawn.studentattendance.base.BaseException;
 import deu.hlju.dawn.studentattendance.bean.Project;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.RelationStuPro;
 import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
+import deu.hlju.dawn.studentattendance.exception.ProjectNotExistException;
+import deu.hlju.dawn.studentattendance.exception.StudentNotExistException;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -28,6 +35,9 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     private List<Room> rooms;
     private List<RelationRoomPro> relationRoomPros;
     private List<RelationStuPro> relationStuPros;
+    private Map<String, Student> quickStudentMap;
+    private Map<String, Project> quickProjectMap;
+    private Map<String, Room> quickRoomMap;
 
     public ConsolePresenter(Context context, ConsoleContract.View view) {
         super(context, view);
@@ -53,7 +63,20 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                         rooms = roomAVQuery.find();
                         projects = projectAVQuery.find();
 //                        relationRoomPros = relationRoomProAVQuery.find();
-//                        relationStuPros = relationStuProAVQuery.find();
+                        relationStuPros = relationStuProAVQuery.find();
+                        quickStudentMap = new HashMap<>();
+                        quickProjectMap = new HashMap<>();
+                        quickRoomMap = new HashMap<>();
+                        for (Student student : students) {
+                            quickStudentMap.put(student.getId(), student);
+                        }
+                        for (Project project : projects) {
+                            quickProjectMap.put(project.getId(), project);
+                        }
+                        for (Room room : rooms) {
+                            quickRoomMap.put(room.getId(), room);
+                        }
+
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,6 +128,77 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     protected void showRoom() {
         if (rooms != null) {
             view.showRoom(rooms);
+        }
+    }
+
+    @Override
+    protected void addRelationStuPro(final String studentId, final String projectId) {
+        if (TextUtils.isEmpty(studentId) || TextUtils.isEmpty(studentId)) {
+            view.showMsg(context.getString(R.string.console_project_id_empty));
+            return;
+        }
+        view.showProgress();
+        Observable.just("")
+                .subscribeOn(Schedulers.io())
+                .doOnNext(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        AVQuery<Student> studentAVQuery = new AVQuery<>("Student");
+                        studentAVQuery.whereEqualTo("id", studentId);
+                        Student student = studentAVQuery.getFirst();
+                        AVQuery<Project> projectAVQuery = new AVQuery<>("Project");
+                        projectAVQuery.whereEqualTo("id", projectId);
+                        Project project = projectAVQuery.getFirst();
+                        if (student == null) {
+                            throw new StudentNotExistException();
+                        }
+                        if (project == null) {
+                            throw new ProjectNotExistException();
+                        }
+                        RelationStuPro relationStuPro = new RelationStuPro();
+                        relationStuPro.setStudentId(studentId);
+                        relationStuPro.setProjectId(projectId);
+                        relationStuPro.save();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        loadData();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        view.hideProgress();
+                        if (throwable instanceof BaseException) {
+                            view.showMsg(throwable.toString());
+                        } else {
+                            view.showMsg(context.getString(R.string.network_error));
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected void showRelationStuPro() {
+        if (relationStuPros != null && students != null) {
+            Map<Student, Set<Project>> studentListMap = new HashMap<>();
+            for (RelationStuPro stuPro : relationStuPros) {
+                String studentId = stuPro.getStudentId();
+                String projectId = stuPro.getProjectId();
+                Student student = quickStudentMap.get(studentId);
+                Project project = quickProjectMap.get(projectId);
+                if (student != null && project != null) {
+                    Set<Project> projects = studentListMap.get(student);
+                    if (projects == null) {
+                        projects = new HashSet<>();
+                    }
+                    projects.add(project);
+                    studentListMap.put(student, projects);
+                }
+            }
+            view.shwoRelationStuPro(studentListMap);
         }
     }
 

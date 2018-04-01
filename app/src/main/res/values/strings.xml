@@ -14,8 +14,9 @@
     <!--ShowStudent-->
 
     <!--Console-->
-    <string name="console_project_name_id_empty">课程ID与名称不能为空</string>
-    <string name="console_room_name_id_empty">教室ID与名称不能为空</string>
+    <string name="console_project_id_empty">id不能为空</string>
+    <string name="console_project_name_id_empty">课程id与名称不能为空</string>
+    <string name="console_room_name_id_empty">教室id与名称不能为空</string>
     <!--Console-->
 
     <!--Activity-->

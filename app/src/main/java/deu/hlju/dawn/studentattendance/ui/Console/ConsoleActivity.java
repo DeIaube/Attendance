@@ -24,6 +24,8 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseActivity;
@@ -67,7 +69,7 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
         if (view.getId() == R.id.btn1) {
             // 增加课程
             final EditText nameEt = new EditText(this);
-            nameEt.setHint("课程ID");
+            nameEt.setHint("课程id");
             final EditText idEt = new EditText(this);
             idEt.setHint("课程名称");
             LinearLayout layout = new LinearLayout(this);
@@ -99,9 +101,9 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
         } else if (view.getId() == R.id.btn5) {
             // 增加教室
             final EditText nameEt = new EditText(this);
-            nameEt.setHint("教室ID");
+            nameEt.setHint("教室id");
             final EditText idEt = new EditText(this);
-            idEt.setHint("教师名称");
+            idEt.setHint("教室名称");
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.addView(idEt);
@@ -122,6 +124,32 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
         } else if (view.getId() == R.id.btn6) {
             // 查看教室
             mPresenter.showRoom();
+        } else if (view.getId() == R.id.btn7) {
+            // 增加课程
+            final EditText projectEt = new EditText(this);
+            projectEt.setHint("课程id");
+            final EditText studentEt = new EditText(this);
+            studentEt.setHint("学生id");
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.addView(projectEt);
+            layout.addView(studentEt);
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.alert)
+                    .setView(layout)
+                    .setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String projectId = projectEt.getText().toString();
+                            String studentId = studentEt.getText().toString();
+                            mPresenter.addRelationStuPro(studentId, projectId);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .show();
+        } else if (view.getId() == R.id.btn8) {
+            // 查看课程
+            mPresenter.showRelationStuPro();
         }
 
     }
@@ -167,5 +195,12 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
     @Override
     public void showRoom(List<Room> rooms) {
         Log.i("test", rooms.toString());
+    }
+
+    @Override
+    public void shwoRelationStuPro(Map<Student, Set<Project>> data) {
+        for (Student student : data.keySet()) {
+            Log.i("test", student.getName() + " : " + data.get(student).toString());
+        }
     }
 }
