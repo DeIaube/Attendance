@@ -292,7 +292,7 @@ public class TimeTableView extends LinearLayout {
                 android.R.color.white));
         mTimeTableNameView.setTextSize(16);
         mTimeTableNameView.setGravity(Gravity.CENTER);
-        mTimeTableNameView.setText(model.getName() + "@" + model.getTeacher());
+        mTimeTableNameView.setText(model.getName() + "@" + model.getRoom());
 
         mTimeTableView.addView(mTimeTableNameView);
         mTimeTableView.addView(getWeekHorizontalLine());
