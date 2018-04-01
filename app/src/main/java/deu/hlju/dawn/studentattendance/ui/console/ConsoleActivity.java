@@ -1,15 +1,10 @@
-package deu.hlju.dawn.studentattendance.ui.Console;
+package deu.hlju.dawn.studentattendance.ui.console;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
@@ -18,11 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.SaveCallback;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +24,6 @@ import deu.hlju.dawn.studentattendance.bean.Project;
 import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
 import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
-import deu.hlju.dawn.studentattendance.ui.MainActivity;
 import deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity;
 import deu.hlju.dawn.studentattendance.ui.show_student.ShowStudentActivity;
 

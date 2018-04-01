@@ -1,8 +1,7 @@
-package deu.hlju.dawn.studentattendance.ui.Console;
+package deu.hlju.dawn.studentattendance.ui.console;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;

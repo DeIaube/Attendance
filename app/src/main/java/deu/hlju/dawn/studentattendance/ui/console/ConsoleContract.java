@@ -1,4 +1,4 @@
-package deu.hlju.dawn.studentattendance.ui.Console;
+package deu.hlju.dawn.studentattendance.ui.console;
 
 import android.content.Context;
 

@@ -44,7 +44,7 @@
         <activity android:name=".ui.camera.CameraActivity" />
         <activity android:name=".ui.schedule.ScheduleActivity" />
         <activity
-            android:name=".ui.Console.ConsoleActivity"
+            android:name=".ui.console.ConsoleActivity"
             android:label="@string/title_activity_console"/>
     </application>
 
