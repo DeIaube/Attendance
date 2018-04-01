@@ -22,16 +22,32 @@ public class RelationRoomPro extends AVObject{
         return getString("projectId");
     }
 
-    public void setTime(String time) {
-        put("time", time);
+    public void setWeek(String week) {
+        put("week", week);
     }
 
-    public String getTime() {
-        return getString("time");
+    public String getWeek() {
+        return getString("week");
+    }
+
+    public void setStartNum(String startNum) {
+        put("startNum", startNum);
+    }
+
+    public String getStartNum() {
+        return getString("startNum");
+    }
+
+    public void setEndNum(String endNum) {
+        put("endNum", endNum);
+    }
+
+    public String getEndNum() {
+        return getString("endNum");
     }
 
     @Override
     public String toString() {
-        return String.format("roomId:%s, projectId:%s, time:%s", getRoomtId(), getProjectId(), getTime());
+        return String.format("roomId:%s, projectId:%s, week:%s, startNum:%s, endNum:%s", getRoomtId(), getProjectId(), getWeek(), getStartNum(), getEndNum());
     }
 }
