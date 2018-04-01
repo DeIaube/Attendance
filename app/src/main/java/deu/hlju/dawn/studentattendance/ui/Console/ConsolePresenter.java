@@ -8,6 +8,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,9 @@ import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.RelationStuPro;
 import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
+import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
 import deu.hlju.dawn.studentattendance.exception.ProjectNotExistException;
+import deu.hlju.dawn.studentattendance.exception.RoomNotExistException;
 import deu.hlju.dawn.studentattendance.exception.StudentNotExistException;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -62,7 +65,7 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                         students = studentAVQuery.find();
                         rooms = roomAVQuery.find();
                         projects = projectAVQuery.find();
-//                        relationRoomPros = relationRoomProAVQuery.find();
+                        relationRoomPros = relationRoomProAVQuery.find();
                         relationStuPros = relationStuProAVQuery.find();
                         quickStudentMap = new HashMap<>();
                         quickProjectMap = new HashMap<>();
@@ -199,6 +202,81 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                 }
             }
             view.shwoRelationStuPro(studentListMap);
+        }
+    }
+
+    @Override
+    protected void addRelationRoomPro(final String roomId, final String projectId, final String week, final String startNum, final String endNum) {
+        if (TextUtils.isEmpty(roomId) || TextUtils.isEmpty(projectId) || TextUtils.isEmpty(week) ||
+                TextUtils.isEmpty(startNum) || TextUtils.isEmpty(endNum)) {
+            view.showMsg(context.getString(R.string.console_project_id_empty));
+            return;
+        }
+        int w = Integer.valueOf(week);
+        int s = Integer.valueOf(startNum);
+        int e = Integer.valueOf(endNum);
+        if (w < 1 || w > 7 || s >= e || s < 1 || e > 10) {
+            view.showMsg(context.getString(R.string.console_project_time_error));
+            return;
+        }
+        view.showProgress();
+        Observable.just("")
+                .subscribeOn(Schedulers.io())
+                .doOnNext(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        AVQuery<Room> roomAVQuery = new AVQuery<>("Room");
+                        roomAVQuery.whereEqualTo("id", roomId);
+                        Room room = roomAVQuery.getFirst();
+                        AVQuery<Project> projectAVQuery = new AVQuery<>("Project");
+                        projectAVQuery.whereEqualTo("id", projectId);
+                        Project project = projectAVQuery.getFirst();
+                        if (project == null) {
+                            throw new ProjectNotExistException();
+                        }
+                        if (room == null) {
+                            throw new RoomNotExistException();
+                        }
+                        RelationRoomPro roomPro = new RelationRoomPro();
+                        roomPro.setRoomId(roomId);
+                        roomPro.setProjectId(projectId);
+                        roomPro.setWeek(week);
+                        roomPro.setStartNum(startNum);
+                        roomPro.setEndNum(endNum);
+                        roomPro.save();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        loadData();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        view.hideProgress();
+                        if (throwable instanceof BaseException) {
+                            view.showMsg(throwable.toString());
+                        } else {
+                            view.showMsg(context.getString(R.string.network_error));
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected void showRelationRoomPro() {
+        if (relationRoomPros != null && quickRoomMap != null && quickProjectMap != null) {
+            List<TimeTableModel> timeTableList = new ArrayList<>();
+            for (RelationRoomPro roomPro : relationRoomPros) {
+                String projectId = roomPro.getProjectId();
+                String roomtId = roomPro.getRoomtId();
+                Project project = quickProjectMap.get(projectId);
+                Room room = quickRoomMap.get(roomtId);
+                timeTableList.add(new TimeTableModel(roomPro.getStartNum(), roomPro.getEndNum(), roomPro.getWeek(), project.getName(), room.getName()));
+            }
+            view.shwoRelationRoomPro(timeTableList);
         }
     }
 

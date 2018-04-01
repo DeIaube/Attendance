@@ -14,6 +14,14 @@ public class TimeTableModel {
 		this.room = room;
 	}
 
+	public TimeTableModel(String startnum, String endnum, String week, String name, String room) {
+		this.startnum = Integer.valueOf(startnum);
+		this.endnum = Integer.valueOf(endnum);
+		this.week = Integer.valueOf(week);
+		this.name = name;
+		this.room = room;
+	}
+
 	private String room;
 
 	public int getStartnum() {
