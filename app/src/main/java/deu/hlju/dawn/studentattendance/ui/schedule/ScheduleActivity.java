@@ -3,6 +3,8 @@ package deu.hlju.dawn.studentattendance.ui.schedule;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import deu.hlju.dawn.studentattendance.base.BaseActivity;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.ui.view.TimeTableView;
 
-public class ScheduleActivity extends BaseActivity implements ScheduleContract.View {
+public class ScheduleActivity extends BaseActivity implements ScheduleContract.View, TimeTableView.OnTimeTableClickListener {
 
     private TimeTableView mTimaTableView;
     private SwipeRefreshLayout mScheduleSrl;
@@ -35,6 +37,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleContract.V
             }
         });
         mPresenter = new SchedulePresenter(this, this);
+        mTimaTableView.setOnTimeTableClickListener(this);
     }
 
     public static void start(Context context) {
@@ -61,4 +64,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleContract.V
         mTimaTableView.setTimeTable(timeTables);
     }
 
+    @Override
+    public void onClick(View view, RelationRoomPro relationRoomPro) {
+
+    }
 }

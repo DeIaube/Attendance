@@ -53,6 +53,12 @@ public class TimeTableView extends LinearLayout {
     private LinearLayout mHorizontalWeekLayout;
     private LinearLayout mVerticalWeekLaout;
     private String[] mWeekTitle = {"一", "二", "三", "四", "五", "六", "七"};
+    private OnTimeTableClickListener onTimeTableClickListener;
+
+    public void setOnTimeTableClickListener(OnTimeTableClickListener onTimeTableClickListener) {
+        this.onTimeTableClickListener = onTimeTableClickListener;
+    }
+
     public static String[] colorStr = new String[20];
     int colorNum = 0;
     private List<RelationRoomPro> mListTimeTable = new ArrayList<>();
@@ -301,10 +307,16 @@ public class TimeTableView extends LinearLayout {
         mTimeTableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Todo 课程表点击事件
+                if (onTimeTableClickListener != null) {
+                    onTimeTableClickListener.onClick(v, model);
+                }
             }
         });
         return mTimeTableView;
+    }
+
+    public interface OnTimeTableClickListener {
+        void onClick(View view, RelationRoomPro relationRoomPro);
     }
 
     /**
