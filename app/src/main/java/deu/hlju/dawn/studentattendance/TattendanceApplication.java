@@ -6,6 +6,7 @@ import android.app.Application;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 
+import deu.hlju.dawn.studentattendance.bean.AttendanceRecode;
 import deu.hlju.dawn.studentattendance.bean.Project;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.RelationStuPro;
@@ -27,6 +28,7 @@ public class TattendanceApplication extends Application {
         AVObject.registerSubclass(Room.class);
         AVObject.registerSubclass(RelationRoomPro.class);
         AVObject.registerSubclass(RelationStuPro.class);
+        AVObject.registerSubclass(AttendanceRecode.class);
         AVOSCloud.initialize(this, Constants.CLOUD_APP_ID,Constants.CLOUD_APP_KEY);
     }
 }
