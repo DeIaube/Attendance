@@ -35,17 +35,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.add_student.AddStudnetActivity"
-            android:label="@string/title_activity_add_student"/>
+        <activity
+            android:name=".ui.add_student.AddStudnetActivity"
+            android:label="@string/title_activity_add_student" />
         <activity
             android:name=".ui.show_student.ShowStudentActivity"
             android:label="@string/title_activity_show_student" />
-
         <activity android:name=".ui.camera.CameraActivity" />
         <activity android:name=".ui.schedule.ScheduleActivity" />
         <activity
             android:name=".ui.console.ConsoleActivity"
-            android:label="@string/title_activity_console"/>
+            android:label="@string/title_activity_console" />
+        <activity
+            android:name=".ui.show_recode.ShowRecodeActivity"
+            android:label="@string/title_activity_show_recode"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import java.util.List;
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseActivity;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
+import deu.hlju.dawn.studentattendance.ui.show_recode.ShowRecodeActivity;
 import deu.hlju.dawn.studentattendance.ui.view.TimeTableView;
 
 public class ScheduleActivity extends BaseActivity implements ScheduleContract.View, TimeTableView.OnTimeTableClickListener {
@@ -66,6 +67,6 @@ public class ScheduleActivity extends BaseActivity implements ScheduleContract.V
 
     @Override
     public void onClick(View view, RelationRoomPro relationRoomPro) {
-
+        ShowRecodeActivity.start(this, relationRoomPro);
     }
 }
