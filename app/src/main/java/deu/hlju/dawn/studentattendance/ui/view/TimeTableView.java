@@ -1,5 +1,6 @@
 package deu.hlju.dawn.studentattendance.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
@@ -32,7 +33,6 @@ public class TimeTableView extends LinearLayout {
             R.drawable.select_label_se, R.drawable.select_label_yiw,
             R.drawable.select_label_sy, R.drawable.select_label_yiwu,
             R.drawable.select_label_yi, R.drawable.select_label_wuw};
-    private final static int START = 0;
     //最大节数
     public final static int MAXNUM = 10;
     //显示到星期几
@@ -75,8 +75,6 @@ public class TimeTableView extends LinearLayout {
 
     /**
      * 横的分界线
-     *
-     * @return
      */
     private View getWeekHorizontalLine() {
         View line = new View(getContext());
@@ -87,8 +85,6 @@ public class TimeTableView extends LinearLayout {
 
     /**
      * 竖向分界线
-     *
-     * @return
      */
     private View getWeekVerticalLine() {
         View line = new View(mContext);
@@ -208,7 +204,10 @@ public class TimeTableView extends LinearLayout {
 
     private int getViewWidth() {
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        return wm.getDefaultDisplay().getWidth();
+        if (wm != null) {
+            return wm.getDefaultDisplay().getWidth();
+        }
+        return 0;
     }
 
     /**
@@ -276,8 +275,8 @@ public class TimeTableView extends LinearLayout {
      * 获取单个课表View 也可以自定义我这个
      *
      * @param model 数据类型
-     * @return
      */
+    @SuppressLint("SetTextI18n")
     @SuppressWarnings("deprecation")
     private View createClassView(final RelationRoomPro model) {
         LinearLayout mTimeTableView = new LinearLayout(getContext());
@@ -310,9 +309,6 @@ public class TimeTableView extends LinearLayout {
 
     /**
      * 转换dp
-     *
-     * @param dpValue
-     * @return
      */
     public int dip2px(float dpValue) {
         float scale = getContext().getResources().getDisplayMetrics().density;
@@ -330,8 +326,6 @@ public class TimeTableView extends LinearLayout {
 
     /**
      * 输入课表名循环判断是否数组存在该课表 如果存在输出true并退出循环 如果不存在则存入colorSt[20]数组
-     *
-     * @param name
      */
     private void addTimeName(String name) {
         boolean isRepeat = true;
@@ -352,8 +346,6 @@ public class TimeTableView extends LinearLayout {
     /**
      * 获取数组中的课程名
      *
-     * @param name
-     * @return
      */
     public static int getColorNum(String name) {
         int num = 0;
