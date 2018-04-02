@@ -1,5 +1,6 @@
 package deu.hlju.dawn.studentattendance.ui.console;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -48,6 +49,7 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     protected void start() {
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void loadData() {
         final AVQuery<Student> studentAVQuery = new AVQuery<>("Student");
@@ -65,6 +67,10 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                         projects = projectAVQuery.find();
                         relationRoomPros = relationRoomProAVQuery.find();
                         relationStuPros = relationStuProAVQuery.find();
+                        for (RelationStuPro relationStuPro : relationStuPros) {
+                            relationStuPro.getProject().fetchIfNeeded();
+                            relationStuPro.getStudent().fetchIfNeeded();
+                        }
                         quickStudentMap = new HashMap<>();
                         quickProjectMap = new HashMap<>();
                         quickRoomMap = new HashMap<>();
@@ -132,6 +138,7 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void addRelationStuPro(final String studentId, final String projectId) {
         if (TextUtils.isEmpty(studentId) || TextUtils.isEmpty(studentId)) {
@@ -157,8 +164,8 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                             throw new ProjectNotExistException();
                         }
                         RelationStuPro relationStuPro = new RelationStuPro();
-                        relationStuPro.setStudentId(studentId);
-                        relationStuPro.setProjectId(projectId);
+                        relationStuPro.setStudent(student);
+                        relationStuPro.setProject(project);
                         relationStuPro.save();
                     }
                 })
@@ -186,10 +193,8 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
         if (relationStuPros != null && students != null) {
             Map<Student, Set<Project>> studentListMap = new HashMap<>();
             for (RelationStuPro stuPro : relationStuPros) {
-                String studentId = stuPro.getStudentId();
-                String projectId = stuPro.getProjectId();
-                Student student = quickStudentMap.get(studentId);
-                Project project = quickProjectMap.get(projectId);
+                Student student = stuPro.getStudent();
+                Project project = stuPro.getProject();
                 if (student != null && project != null) {
                     Set<Project> projects = studentListMap.get(student);
                     if (projects == null) {
@@ -203,6 +208,7 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void addRelationRoomPro(final String roomId, final String projectId, final String week, final String startNum, final String endNum) {
         if (TextUtils.isEmpty(roomId) || TextUtils.isEmpty(projectId) || TextUtils.isEmpty(week) ||

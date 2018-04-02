@@ -6,24 +6,24 @@ import com.avos.avoscloud.AVObject;
 @AVClassName("RelationStuPro")
 public class RelationStuPro extends AVObject{
 
-    public void setStudentId(String id) {
-        put("studentId", id);
+    public void setStudent(Student student) {
+        put("student", student);
     }
 
-    public String getStudentId() {
-        return getString("studentId");
+    public Student getStudent() {
+        return (Student) get("student");
     }
 
-    public void setProjectId(String id) {
-        put("projectId", id);
+    public void setProject(Project project) {
+        put("project", project);
     }
 
-    public String getProjectId() {
-        return getString("projectId");
+    public Project getProject() {
+        return (Project) get("project");
     }
 
     @Override
     public String toString() {
-        return String.format("studentId:%s, projectId:%s", getStudentId(), getProjectId());
+        return String.format("student:%s, project:%s", getStudent(), getProject());
     }
 }
