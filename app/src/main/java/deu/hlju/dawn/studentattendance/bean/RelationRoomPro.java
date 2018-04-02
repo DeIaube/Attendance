@@ -6,39 +6,20 @@ import com.avos.avoscloud.AVObject;
 @AVClassName("RelationRoomPro")
 public class RelationRoomPro extends AVObject{
 
-    private String roomName;
-    private String projectName;
-
-    public String getRoomName() {
-        return roomName;
+    public Room getRoom() {
+        return (Room) get("room");
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setRoom(Room room) {
+        put("room", room);
     }
 
-    public String getProjectName() {
-        return projectName;
+    public Project getProject() {
+        return (Project) get("project");
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setRoomId(String id) {
-        put("roomId", id);
-    }
-
-    public String getRoomtId() {
-        return getString("roomId");
-    }
-
-    public void setProjectId(String id) {
-        put("projectId", id);
-    }
-
-    public String getProjectId() {
-        return getString("projectId");
+    public void setProject(Project project) {
+        put("project", project);
     }
 
     public void setWeek(String week) {
@@ -67,6 +48,6 @@ public class RelationRoomPro extends AVObject{
 
     @Override
     public String toString() {
-        return String.format("roomId:%s, projectId:%s, week:%s, startNum:%s, endNum:%s", getRoomtId(), getProjectId(), getWeek(), getStartNum(), getEndNum());
+        return String.format("room:%s, project:%s, week:%s, startNum:%s, endNum:%s", getRoom(), getProject(), getWeek(), getStartNum(), getEndNum());
     }
 }

@@ -37,9 +37,6 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     private List<Room> rooms;
     private List<RelationRoomPro> relationRoomPros;
     private List<RelationStuPro> relationStuPros;
-    private Map<String, Student> quickStudentMap;
-    private Map<String, Project> quickProjectMap;
-    private Map<String, Room> quickRoomMap;
 
     public ConsolePresenter(Context context, ConsoleContract.View view) {
         super(context, view);
@@ -65,25 +62,16 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                         students = studentAVQuery.find();
                         rooms = roomAVQuery.find();
                         projects = projectAVQuery.find();
-                        relationRoomPros = relationRoomProAVQuery.find();
                         relationStuPros = relationStuProAVQuery.find();
                         for (RelationStuPro relationStuPro : relationStuPros) {
                             relationStuPro.getProject().fetchIfNeeded();
                             relationStuPro.getStudent().fetchIfNeeded();
                         }
-                        quickStudentMap = new HashMap<>();
-                        quickProjectMap = new HashMap<>();
-                        quickRoomMap = new HashMap<>();
-                        for (Student student : students) {
-                            quickStudentMap.put(student.getId(), student);
+                        relationRoomPros = relationRoomProAVQuery.find();
+                        for (RelationRoomPro relationRoomPro : relationRoomPros) {
+                            relationRoomPro.getProject().fetchIfNeeded();
+                            relationRoomPro.getRoom().fetchIfNeeded();
                         }
-                        for (Project project : projects) {
-                            quickProjectMap.put(project.getId(), project);
-                        }
-                        for (Room room : rooms) {
-                            quickRoomMap.put(room.getId(), room);
-                        }
-
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -242,8 +230,8 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                             throw new RoomNotExistException();
                         }
                         RelationRoomPro roomPro = new RelationRoomPro();
-                        roomPro.setRoomId(roomId);
-                        roomPro.setProjectId(projectId);
+                        roomPro.setRoom(room);
+                        roomPro.setProject(project);
                         roomPro.setWeek(week);
                         roomPro.setStartNum(startNum);
                         roomPro.setEndNum(endNum);
@@ -271,15 +259,7 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
 
     @Override
     protected void showRelationRoomPro() {
-        if (relationRoomPros != null && quickRoomMap != null && quickProjectMap != null) {
-            for (RelationRoomPro roomPro : relationRoomPros) {
-                String projectId = roomPro.getProjectId();
-                String roomtId = roomPro.getRoomtId();
-                Project project = quickProjectMap.get(projectId);
-                Room room = quickRoomMap.get(roomtId);
-                roomPro.setProjectName(project.getName());
-                roomPro.setRoomName(room.getName());
-            }
+        if (relationRoomPros != null) {
             view.shwoRelationRoomPro(relationRoomPros);
         }
     }

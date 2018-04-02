@@ -56,12 +56,8 @@ public class SchedulePresenter extends ScheduleContract.Presenter {
                         AVQuery<RelationRoomPro> roomProAVQuery = new AVQuery<>("RelationRoomPro");
                         List<RelationRoomPro> relations = roomProAVQuery.find();
                         for (RelationRoomPro relation : relations) {
-                            Room room = quickRoomMap.get(relation.getRoomtId());
-                            Project project = quickProjectMap.get(relation.getProjectId());
-                            if (room != null && project != null) {
-                                relation.setProjectName(project.getName());
-                                relation.setRoomName(room.getName());
-                            }
+                            relation.getRoom().fetchIfNeeded();
+                            relation.getProject().fetchIfNeeded();
                         }
                         return relations;
                     }

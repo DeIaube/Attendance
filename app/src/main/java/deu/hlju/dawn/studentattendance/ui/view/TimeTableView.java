@@ -297,13 +297,13 @@ public class TimeTableView extends LinearLayout {
                 android.R.color.white));
         mTimeTableNameView.setTextSize(16);
         mTimeTableNameView.setGravity(Gravity.CENTER);
-        mTimeTableNameView.setText(model.getProjectName() + "@" + model.getRoomName());
+        mTimeTableNameView.setText(model.getProject().getName() + "@" + model.getRoom().getName());
 
         mTimeTableView.addView(mTimeTableNameView);
         mTimeTableView.addView(getWeekHorizontalLine());
 
         mTimeTableView.setBackgroundDrawable(getContext().getResources()
-                .getDrawable(colors[getColorNum(model.getProjectName())]));
+                .getDrawable(colors[getColorNum(model.getProject().getName())]));
         mTimeTableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +330,7 @@ public class TimeTableView extends LinearLayout {
     public void setTimeTable(List<RelationRoomPro> mlist) {
         this.mListTimeTable = mlist;
         for (RelationRoomPro timeTableModel : mlist) {
-            addTimeName(timeTableModel.getProjectName());
+            addTimeName(timeTableModel.getProject().getName());
         }
         initView();
         invalidate();
