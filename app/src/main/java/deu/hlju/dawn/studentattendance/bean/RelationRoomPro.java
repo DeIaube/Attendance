@@ -6,6 +6,25 @@ import com.avos.avoscloud.AVObject;
 @AVClassName("RelationRoomPro")
 public class RelationRoomPro extends AVObject{
 
+    private String roomName;
+    private String projectName;
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
     public void setRoomId(String id) {
         put("roomId", id);
     }

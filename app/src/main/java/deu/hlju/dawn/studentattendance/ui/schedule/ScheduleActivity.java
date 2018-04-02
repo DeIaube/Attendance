@@ -3,16 +3,13 @@ package deu.hlju.dawn.studentattendance.ui.schedule;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseActivity;
-import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
+import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.ui.view.TimeTableView;
 
 public class ScheduleActivity extends BaseActivity implements ScheduleContract.View {
@@ -60,7 +57,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleContract.V
     }
 
     @Override
-    public void loadSchedule(List<TimeTableModel> timeTables) {
+    public void loadSchedule(List<RelationRoomPro> timeTables) {
         mTimaTableView.setTimeTable(timeTables);
     }
+
 }

@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import deu.hlju.dawn.studentattendance.R;
-import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
+import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 
 public class TimeTableView extends LinearLayout {
     /**
@@ -55,7 +55,7 @@ public class TimeTableView extends LinearLayout {
     private String[] mWeekTitle = {"一", "二", "三", "四", "五", "六", "七"};
     public static String[] colorStr = new String[20];
     int colorNum = 0;
-    private List<TimeTableModel> mListTimeTable = new ArrayList<TimeTableModel>();
+    private List<RelationRoomPro> mListTimeTable = new ArrayList<>();
 
     private Context mContext;
 
@@ -131,7 +131,7 @@ public class TimeTableView extends LinearLayout {
     }
 
     private void layoutContentView(int week) {
-        List<TimeTableModel> weekClassList = findWeekClassList(week);
+        List<RelationRoomPro> weekClassList = findWeekClassList(week);
         //添加
         LinearLayout mLayout = createWeekTimeTableView(weekClassList, week);
         mLayout.setOrientation(VERTICAL);
@@ -147,18 +147,18 @@ public class TimeTableView extends LinearLayout {
      * @param week 星期
      */
     @NonNull
-    private List<TimeTableModel> findWeekClassList(int week) {
-        List<TimeTableModel> list = new ArrayList<>();
-        for (TimeTableModel timeTableModel : mListTimeTable) {
-            if (timeTableModel.getWeek() == week) {
+    private List<RelationRoomPro> findWeekClassList(int week) {
+        List<RelationRoomPro> list = new ArrayList<>();
+        for (RelationRoomPro timeTableModel : mListTimeTable) {
+            if (timeTableModel.getWeek().equals(String.valueOf(week))) {
                 list.add(timeTableModel);
             }
         }
 
-        Collections.sort(list, new Comparator<TimeTableModel>() {
+        Collections.sort(list, new Comparator<RelationRoomPro>() {
             @Override
-            public int compare(TimeTableModel o1, TimeTableModel o2) {
-                return o1.getStartnum() - o2.getStartnum();
+            public int compare(RelationRoomPro o1, RelationRoomPro o2) {
+                return o1.getStartNum().compareTo(o2.getStartNum());
             }
         });
 
@@ -245,7 +245,7 @@ public class TimeTableView extends LinearLayout {
      * @param weekList 每天的课程列表
      * @param week     周
      */
-    private LinearLayout createWeekTimeTableView(List<TimeTableModel> weekList, int week) {
+    private LinearLayout createWeekTimeTableView(List<RelationRoomPro> weekList, int week) {
         LinearLayout weekTableView = new LinearLayout(getContext());
         weekTableView.setOrientation(VERTICAL);
         int size = weekList.size();
@@ -253,19 +253,19 @@ public class TimeTableView extends LinearLayout {
             weekTableView.addView(addBlankView(MAXNUM + 1, week, 0));
         } else {
             for (int i = 0; i < size; i++) {
-                TimeTableModel tableModel = weekList.get(i);
+                RelationRoomPro tableModel = weekList.get(i);
                 if (i == 0) {
                     //添加的0到开始节数的空格
-                    weekTableView.addView(addBlankView(tableModel.getStartnum(), week, 0));
+                    weekTableView.addView(addBlankView(Integer.valueOf(tableModel.getStartNum()), week, 0));
                     weekTableView.addView(createClassView(tableModel));
-                } else if (weekList.get(i).getStartnum() - weekList.get(i - 1).getEndnum() > 0) {
+                } else if (Integer.valueOf(weekList.get(i).getStartNum()) - Integer.valueOf(weekList.get(i - 1).getEndNum()) > 0) {
                     //填充
-                    weekTableView.addView(addBlankView(weekList.get(i).getStartnum() - weekList.get(i - 1).getEndnum(), week, weekList.get(i - 1).getEndnum()));
+                    weekTableView.addView(addBlankView(Integer.valueOf(weekList.get(i).getStartNum()) - Integer.valueOf(weekList.get(i - 1).getEndNum()), week, Integer.valueOf(weekList.get(i - 1).getEndNum())));
                     weekTableView.addView(createClassView(weekList.get(i)));
                 }
                 //绘制剩下的空白
                 if (i + 1 == size) {
-                    weekTableView.addView(addBlankView(MAXNUM - weekList.get(i).getEndnum() + 1, week, weekList.get(i).getEndnum()));
+                    weekTableView.addView(addBlankView(MAXNUM - Integer.valueOf(weekList.get(i).getEndNum()) + 1, week, Integer.valueOf(weekList.get(i).getEndNum())));
                 }
             }
         }
@@ -279,10 +279,10 @@ public class TimeTableView extends LinearLayout {
      * @return
      */
     @SuppressWarnings("deprecation")
-    private View createClassView(final TimeTableModel model) {
+    private View createClassView(final RelationRoomPro model) {
         LinearLayout mTimeTableView = new LinearLayout(getContext());
         mTimeTableView.setOrientation(VERTICAL);
-        int num = (model.getEndnum() - model.getStartnum());
+        int num = (Integer.valueOf(model.getEndNum()) - Integer.valueOf(model.getStartNum()));
         mTimeTableView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dip2px((num + 1) * TIME_TABLE_HEIGHT) + (num + 1) * TIME_TABLE_LINE_HEIGHT));
 
         TextView mTimeTableNameView = new TextView(getContext());
@@ -292,13 +292,13 @@ public class TimeTableView extends LinearLayout {
                 android.R.color.white));
         mTimeTableNameView.setTextSize(16);
         mTimeTableNameView.setGravity(Gravity.CENTER);
-        mTimeTableNameView.setText(model.getName() + "@" + model.getRoom());
+        mTimeTableNameView.setText(model.getProjectName() + "@" + model.getRoomName());
 
         mTimeTableView.addView(mTimeTableNameView);
         mTimeTableView.addView(getWeekHorizontalLine());
 
         mTimeTableView.setBackgroundDrawable(getContext().getResources()
-                .getDrawable(colors[getColorNum(model.getName())]));
+                .getDrawable(colors[getColorNum(model.getProjectName())]));
         mTimeTableView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,10 +319,10 @@ public class TimeTableView extends LinearLayout {
         return (int) (dpValue * scale);
     }
 
-    public void setTimeTable(List<TimeTableModel> mlist) {
+    public void setTimeTable(List<RelationRoomPro> mlist) {
         this.mListTimeTable = mlist;
-        for (TimeTableModel timeTableModel : mlist) {
-            addTimeName(timeTableModel.getName());
+        for (RelationRoomPro timeTableModel : mlist) {
+            addTimeName(timeTableModel.getProjectName());
         }
         initView();
         invalidate();

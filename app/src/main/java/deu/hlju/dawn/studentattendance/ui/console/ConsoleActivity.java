@@ -21,9 +21,9 @@ import java.util.Set;
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseActivity;
 import deu.hlju.dawn.studentattendance.bean.Project;
+import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
-import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
 import deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity;
 import deu.hlju.dawn.studentattendance.ui.show_student.ShowStudentActivity;
 
@@ -243,8 +243,8 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
     }
 
     @Override
-    public void shwoRelationRoomPro(List<TimeTableModel> timeTablelList) {
-        for (TimeTableModel timeTableModel : timeTablelList) {
+    public void shwoRelationRoomPro(List<RelationRoomPro> timeTablelList) {
+        for (RelationRoomPro timeTableModel : timeTablelList) {
             Log.i("test", timeTableModel.toString());
         }
     }

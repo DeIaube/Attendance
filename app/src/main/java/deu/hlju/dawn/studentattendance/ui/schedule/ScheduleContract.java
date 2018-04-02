@@ -6,15 +6,14 @@ import java.util.List;
 
 import deu.hlju.dawn.studentattendance.base.MvpPresenter;
 import deu.hlju.dawn.studentattendance.base.MvpView;
-import deu.hlju.dawn.studentattendance.bean.Student;
-import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
+import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 
 public interface ScheduleContract {
     interface View extends MvpView {
         void showProgress();
         void hideProgress();
         void showMsg(String msg);
-        void loadSchedule(List<TimeTableModel> timeTables);
+        void loadSchedule(List<RelationRoomPro> timeTables);
     }
 
     abstract class Presenter extends MvpPresenter {

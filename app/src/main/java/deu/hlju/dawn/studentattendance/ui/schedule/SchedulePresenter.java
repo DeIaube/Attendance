@@ -1,5 +1,6 @@
 package deu.hlju.dawn.studentattendance.ui.schedule;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.avos.avoscloud.AVQuery;
@@ -13,7 +14,6 @@ import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.bean.Project;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.Room;
-import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -32,14 +32,15 @@ public class SchedulePresenter extends ScheduleContract.Presenter {
         loadSchedule();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void loadSchedule() {
         view.showProgress();
         Observable.just("")
                 .subscribeOn(Schedulers.io())
-                .map(new Function<String, List<TimeTableModel>>() {
+                .map(new Function<String, List<RelationRoomPro>>() {
                     @Override
-                    public List<TimeTableModel> apply(String s) throws Exception {
+                    public List<RelationRoomPro> apply(String s) throws Exception {
                         AVQuery<Room> roomAVQuery = new AVQuery<>("Room");
                         List<Room> rooms = roomAVQuery.find();
                         Map<String, Room> quickRoomMap = new HashMap<>();
@@ -54,23 +55,21 @@ public class SchedulePresenter extends ScheduleContract.Presenter {
                         }
                         AVQuery<RelationRoomPro> roomProAVQuery = new AVQuery<>("RelationRoomPro");
                         List<RelationRoomPro> relations = roomProAVQuery.find();
-                        List<TimeTableModel> timeTableModelList = new ArrayList<>();
                         for (RelationRoomPro relation : relations) {
                             Room room = quickRoomMap.get(relation.getRoomtId());
                             Project project = quickProjectMap.get(relation.getProjectId());
                             if (room != null && project != null) {
-                                TimeTableModel tableModel = new TimeTableModel(relation.getStartNum(),
-                                        relation.getEndNum(), relation.getWeek(), project.getName(), room.getName());
-                                timeTableModelList.add(tableModel);
+                                relation.setProjectName(project.getName());
+                                relation.setRoomName(room.getName());
                             }
                         }
-                        return timeTableModelList;
+                        return relations;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<TimeTableModel>>() {
+                .subscribe(new Consumer<List<RelationRoomPro>>() {
                     @Override
-                    public void accept(List<TimeTableModel> timeTableModelList) throws Exception {
+                    public void accept(List<RelationRoomPro> timeTableModelList) throws Exception {
                         view.hideProgress();
                         view.loadSchedule(timeTableModelList);
                     }

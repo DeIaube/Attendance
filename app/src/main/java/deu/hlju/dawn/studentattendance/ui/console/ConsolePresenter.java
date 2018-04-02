@@ -21,7 +21,6 @@ import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.RelationStuPro;
 import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
-import deu.hlju.dawn.studentattendance.bean.TimeTableModel;
 import deu.hlju.dawn.studentattendance.exception.ProjectNotExistException;
 import deu.hlju.dawn.studentattendance.exception.RoomNotExistException;
 import deu.hlju.dawn.studentattendance.exception.StudentNotExistException;
@@ -267,15 +266,15 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     @Override
     protected void showRelationRoomPro() {
         if (relationRoomPros != null && quickRoomMap != null && quickProjectMap != null) {
-            List<TimeTableModel> timeTableList = new ArrayList<>();
             for (RelationRoomPro roomPro : relationRoomPros) {
                 String projectId = roomPro.getProjectId();
                 String roomtId = roomPro.getRoomtId();
                 Project project = quickProjectMap.get(projectId);
                 Room room = quickRoomMap.get(roomtId);
-                timeTableList.add(new TimeTableModel(roomPro.getStartNum(), roomPro.getEndNum(), roomPro.getWeek(), project.getName(), room.getName()));
+                roomPro.setProjectName(project.getName());
+                roomPro.setRoomName(room.getName());
             }
-            view.shwoRelationRoomPro(timeTableList);
+            view.shwoRelationRoomPro(relationRoomPros);
         }
     }
 
