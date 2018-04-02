@@ -1,25 +1,33 @@
 package deu.hlju.dawn.studentattendance.ui.camera;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.util.Log;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import deu.hlju.dawn.studentattendance.R;
 import deu.hlju.dawn.studentattendance.base.BaseException;
+import deu.hlju.dawn.studentattendance.bean.AttendanceRecode;
 import deu.hlju.dawn.studentattendance.bean.FaceSearchResult;
+import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.Student;
 import deu.hlju.dawn.studentattendance.config.Constants;
+import deu.hlju.dawn.studentattendance.exception.AttendanceRecodeExistException;
 import deu.hlju.dawn.studentattendance.exception.FaceSearchNotFindException;
 import deu.hlju.dawn.studentattendance.network.Request;
 import deu.hlju.dawn.studentattendance.util.LogUtil;
+import deu.hlju.dawn.studentattendance.util.ScheduleUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -27,10 +35,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CameraPresenter extends CameraContract.Presenter {
 
+    private RelationRoomPro mRelationRoomPro;
+
     CameraPresenter(Context context, CameraContract.View view) {
         super(context, view);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void startSearchFace(byte[] bytes) {
         // 翻转图像
@@ -60,6 +71,17 @@ public class CameraPresenter extends CameraContract.Presenter {
                         if (student == null) {
                             throw new FaceSearchNotFindException();
                         }
+                        AVQuery<AttendanceRecode> recodeAVQuery = new AVQuery<>("AttendanceRecode");
+                        recodeAVQuery.whereEqualTo("student", student);
+                        recodeAVQuery.whereEqualTo("relationRoomPro", mRelationRoomPro);
+                        AttendanceRecode attendanceRecode = recodeAVQuery.getFirst();
+                        if (attendanceRecode != null) {
+                            throw new AttendanceRecodeExistException();
+                        }
+                        AttendanceRecode recode = new AttendanceRecode();
+                        recode.setStudent(student);
+                        recode.setRelationRoomPro(mRelationRoomPro);
+                        recode.save();
                         return student;
                     }
                 })
@@ -68,23 +90,21 @@ public class CameraPresenter extends CameraContract.Presenter {
                     @Override
                     public void accept(Student student) throws Exception {
                         LogUtil.i("CameraPresenter", "startFaceSearch():" + student.toString());
-                        punchClock(student);
+                        String name = student.getName();
+                        String projectName = mRelationRoomPro.getProject().getName();
+                        view.showMsg(String.format("%s课程,%s已经签到完成", projectName, name));
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         LogUtil.i("CameraPresenter", "accept():"+throwable.toString());
                         if (throwable instanceof BaseException) {
-                            view.showMsg(throwable.toString());
+                            view.showMsg(throwable.getMessage());
                         } else {
                             view.showMsg(context.getString(R.string.network_error));
                         }
                     }
                 });
-    }
-
-    private void punchClock(Student student) {
-
     }
 
     private Bitmap convert(Bitmap a, int width, int height) {
@@ -101,6 +121,26 @@ public class CameraPresenter extends CameraContract.Presenter {
 
     @Override
     protected void start() {
-
+        view.showProgress();
+        AVQuery<RelationRoomPro> relationRoomProAVQuery = new AVQuery<>("RelationRoomPro");
+        relationRoomProAVQuery.findInBackground(new FindCallback<RelationRoomPro>() {
+            @Override
+            public void done(List<RelationRoomPro> list, AVException e) {
+                if (e == null) {
+                    RelationRoomPro mathSchedule = ScheduleUtil.findMathSchedule(list);
+                    if (mathSchedule == null) {
+                        view.showMsg(context.getString(R.string.camera_mot_match_schedule));
+                        view.finish();
+                    } else {
+                        mRelationRoomPro = mathSchedule;
+                        mRelationRoomPro.getProject().fetchInBackground(null);
+                        view.hideProgress();
+                    }
+                    return;
+                }
+                view.showMsg(context.getString(R.string.network_error));
+                view.finish();
+            }
+        });
     }
 }

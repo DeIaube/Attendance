@@ -1,6 +1,7 @@
 package deu.hlju.dawn.studentattendance.ui.camera;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
@@ -27,6 +28,7 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
     private Camera camera;
     private Camera.AutoFocusCallback myAutoFocusCallback1 = null;//只对焦不拍照
     private CameraContract.Presenter mPresenter;
+    private ProgressDialog mProgressDialog;
     public static final int only_auto_focus = 110;
     int issuccessfocus = 0;
 
@@ -182,5 +184,30 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
     @Override
     public void showMsg(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgress() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setTitle(R.string.alert);
+            mProgressDialog.setMessage(getString(R.string.loading));
+        }
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 }
