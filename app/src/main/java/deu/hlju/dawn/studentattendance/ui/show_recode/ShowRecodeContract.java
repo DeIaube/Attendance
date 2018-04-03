@@ -1,4 +1,4 @@
-package deu.hlju.dawn.studentattendance.ui.show_student;
+package deu.hlju.dawn.studentattendance.ui.show_recode;
 
 import android.content.Context;
 
@@ -6,33 +6,28 @@ import java.util.List;
 
 import deu.hlju.dawn.studentattendance.base.MvpPresenter;
 import deu.hlju.dawn.studentattendance.base.MvpView;
+import deu.hlju.dawn.studentattendance.bean.AttendanceRecode;
+import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.Student;
 
-
-/**
- * Created by Dawn on 2018/3/26.
- */
-
-public interface ShowStudentContract {
+public interface ShowRecodeContract {
     interface View extends MvpView {
         void showProgress();
         void hideProgress();
         void showMsg(String msg);
-        void loadStudentMessage(List<Student> students);
-        void deleteStudent(int position);
+        void loadRecode(List<AttendanceRecode> attendanceRecodes);
     }
 
     abstract class Presenter extends MvpPresenter {
-        protected ShowStudentContract.View view;
+        protected ShowRecodeContract.View view;
         protected Context context;
 
-        public Presenter(Context context, ShowStudentContract.View view) {
+        public Presenter(Context context, ShowRecodeContract.View view) {
             this.view = view;
             this.context = context;
             start();
         }
 
-        protected abstract void loadStudentMessage();
-        protected abstract void deleteStudent(int position);
+        protected abstract void loadRecode(RelationRoomPro relationRoomPro);
     }
 }

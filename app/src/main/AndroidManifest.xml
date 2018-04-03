@@ -46,10 +46,7 @@
         <activity
             android:name=".ui.console.ConsoleActivity"
             android:label="@string/title_activity_console" />
-        <activity
-            android:name=".ui.show_recode.ShowRecodeActivity"
-            android:label="@string/title_activity_show_recode"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ui.show_recode.ShowRecodeActivity" />
     </application>
 
 </manifest>
