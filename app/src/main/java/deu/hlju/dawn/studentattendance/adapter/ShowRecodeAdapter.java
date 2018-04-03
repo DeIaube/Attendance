@@ -45,7 +45,7 @@ public class ShowRecodeAdapter extends RecyclerView.Adapter<ShowRecodeAdapter.Sh
         holder.idTv.setText(recode.getStudent().getId());
         holder.nameTv.setText(recode.getStudent().getName());
         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH时mm分");
-        holder.timeTv.setText(sdf.format(recode.getUpdatedAt()));
+        holder.timeTv.setText(sdf.format(recode.getRecodeDate()));
         Picasso.with(context).load(recode.getStudent().getPortrait()).into(holder.portraitCiv);
     }
 

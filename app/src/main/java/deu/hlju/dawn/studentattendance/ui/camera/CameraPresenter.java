@@ -13,6 +13,7 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import deu.hlju.dawn.studentattendance.R;
@@ -80,6 +81,7 @@ public class CameraPresenter extends CameraContract.Presenter {
                         AttendanceRecode recode = new AttendanceRecode();
                         recode.setStudent(student);
                         recode.setRelationRoomPro(mRelationRoomPro);
+                        recode.setRecodeDate(new Date());
                         recode.save();
                         return student;
                     }

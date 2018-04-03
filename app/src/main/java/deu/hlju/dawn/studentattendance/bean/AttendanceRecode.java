@@ -3,6 +3,8 @@ package deu.hlju.dawn.studentattendance.bean;
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
+import java.util.Date;
+
 @AVClassName("AttendanceRecode")
 public class AttendanceRecode extends AVObject{
 
@@ -20,6 +22,14 @@ public class AttendanceRecode extends AVObject{
 
     public Student getStudent() {
         return (Student) get("student");
+    }
+
+    public Date getRecodeDate() {
+        return getDate("date");
+    }
+
+    public void setRecodeDate(Date date) {
+        put("date", date);
     }
 
     @Override
