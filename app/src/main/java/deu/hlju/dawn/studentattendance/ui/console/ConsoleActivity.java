@@ -24,8 +24,12 @@ import deu.hlju.dawn.studentattendance.bean.Project;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.Room;
 import deu.hlju.dawn.studentattendance.bean.Student;
+import deu.hlju.dawn.studentattendance.ui.MainActivity;
 import deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity;
+import deu.hlju.dawn.studentattendance.ui.camera.CameraActivity;
+import deu.hlju.dawn.studentattendance.ui.schedule.ScheduleActivity;
 import deu.hlju.dawn.studentattendance.ui.show_student.ShowStudentActivity;
+import deu.hlju.dawn.studentattendance.util.ScheduleUtil;
 
 public class ConsoleActivity extends BaseActivity implements ConsoleContract.View {
 
@@ -188,6 +192,9 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
         } else if (view.getId() == R.id.btn10) {
             // 查看课程教室
             mPresenter.showRelationRoomPro();
+        } else if (view.getId() == R.id.btn11) {
+            // 查看课程表
+            ScheduleActivity.start(this);
         }
 
     }
