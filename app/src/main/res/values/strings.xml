@@ -22,6 +22,14 @@
     <string name="console_project_name_id_empty">课程id与名称不能为空</string>
     <string name="console_room_name_id_empty">教室id与名称不能为空</string>
     <string name="console_project_time_error">时间设置有误</string>
+    <string name="console_checkout_permission">验证指纹解锁权限</string>
+    <string name="console_please_checkout_finger">请进行指纹识别</string>
+    <string name="console_no_finger_permission">没有指纹识别权限</string>
+    <string name="console_finger_check_succeed">指纹识别成功</string>
+    <string name="console_finger_check_fail">指纹识别失败</string>
+    <string name="console_no_load_finger">没有录入指纹</string>
+    <string name="console_no_open_keyguard">没有开启锁屏密码</string>
+    <string name="console_no_finger_mode">没有指纹识别模块</string>
     <!--Console-->
 
     <!--Activity-->

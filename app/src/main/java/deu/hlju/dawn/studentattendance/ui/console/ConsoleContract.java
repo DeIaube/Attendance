@@ -19,6 +19,9 @@ public interface ConsoleContract {
     interface View extends MvpView {
         void showProgress();
         void hideProgress();
+        void showCheckPermission();
+        void hideCheckPermission();
+        void finish();
         void showMsg(String msg);
         void showProject(List<Project> projects);
         void showRoom(List<Room> rooms);

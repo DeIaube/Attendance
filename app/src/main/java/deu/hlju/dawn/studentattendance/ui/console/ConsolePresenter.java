@@ -1,7 +1,15 @@
 package deu.hlju.dawn.studentattendance.ui.console;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
+import android.os.CancellationSignal;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
@@ -36,13 +44,75 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     private List<Room> rooms;
     private List<RelationRoomPro> relationRoomPros;
     private List<RelationStuPro> relationStuPros;
+    private FingerprintManager mFingerprintManager;
+    private KeyguardManager mKeyguardManager;
+
 
     ConsolePresenter(Context context, ConsoleContract.View view) {
         super(context, view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void start() {
+        mFingerprintManager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
+        mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        if (isFingerEnable()) {
+            view.showCheckPermission();
+            view.showMsg(context.getString(R.string.console_please_checkout_finger));
+            startListening(null);
+        } else {
+            view.finish();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void startListening(FingerprintManager.CryptoObject cryptoObject) {
+        //android studio 上，没有这个会报错
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+            view.showMsg(context.getString(R.string.console_no_finger_permission));
+            view.finish();
+            return;
+        }
+        mFingerprintManager.authenticate(cryptoObject, new CancellationSignal(), 0, new FingerprintManager.AuthenticationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onAuthenticationError(int errorCode, CharSequence errString) {
+                //但多次指纹密码验证错误后，进入此方法；并且，不能短时间内调用指纹验证
+                view.showMsg(errString.toString());
+                view.finish();
+            }
+            @Override
+            public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+                view.showMsg(helpString.toString());
+            }
+            @Override
+            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+                view.showMsg(context.getString(R.string.console_finger_check_succeed));
+                view.hideCheckPermission();
+            }
+            @Override
+            public void onAuthenticationFailed() {
+                view.showMsg(context.getString(R.string.console_finger_check_fail));
+            }
+        }, null);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean isFingerEnable() {
+        if (!mFingerprintManager.isHardwareDetected()) {
+            view.showMsg(context.getString(R.string.console_no_finger_mode));
+            return false;
+        }
+        if (!mKeyguardManager.isKeyguardSecure()) {
+            view.showMsg(context.getString(R.string.console_no_open_keyguard));
+            return false;
+        }
+        if (!mFingerprintManager.hasEnrolledFingerprints()) {
+            view.showMsg(context.getString(R.string.console_no_load_finger));
+            return false;
+        }
+        return true;
     }
 
     @SuppressLint("CheckResult")

@@ -1,5 +1,6 @@
 package deu.hlju.dawn.studentattendance.ui.console;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import deu.hlju.dawn.studentattendance.util.ScheduleUtil;
 public class ConsoleActivity extends BaseActivity implements ConsoleContract.View {
 
     private ConsoleContract.Presenter mPresenter;
+    private ProgressDialog mCheckoutPermissionDialog;
     private SwipeRefreshLayout mConsoleSfl;
 
     @Override
@@ -218,6 +220,14 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mCheckoutPermissionDialog != null) {
+            mCheckoutPermissionDialog.dismiss();
+        }
+    }
+
+    @Override
     public void showProgress() {
         mConsoleSfl.setRefreshing(true);
     }
@@ -225,6 +235,24 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
     @Override
     public void hideProgress() {
         mConsoleSfl.setRefreshing(false);
+    }
+
+    @Override
+    public void showCheckPermission() {
+        if (mCheckoutPermissionDialog == null) {
+            mCheckoutPermissionDialog = new ProgressDialog(this);
+            mCheckoutPermissionDialog.setTitle(R.string.alert);
+            mCheckoutPermissionDialog.setMessage(getString(R.string.console_checkout_permission));
+            mCheckoutPermissionDialog.setCancelable(false);
+        }
+        mCheckoutPermissionDialog.show();
+    }
+
+    @Override
+    public void hideCheckPermission() {
+        if (mCheckoutPermissionDialog != null) {
+            mCheckoutPermissionDialog.dismiss();
+        }
     }
 
     @Override
