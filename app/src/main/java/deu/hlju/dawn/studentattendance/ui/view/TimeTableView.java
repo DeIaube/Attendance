@@ -101,7 +101,15 @@ public class TimeTableView extends LinearLayout {
 
 
     private void initView() {
-
+        if (mHorizontalWeekLayout != null) {
+            removeView(mHorizontalWeekLayout);
+        }
+        if (getWeekHorizontalLine() != null) {
+            removeView(getWeekHorizontalLine());
+        }
+        if (mVerticalWeekLaout != null) {
+            removeView(mVerticalWeekLaout);
+        }
         mHorizontalWeekLayout = new LinearLayout(getContext());
         mHorizontalWeekLayout.setOrientation(HORIZONTAL);
         mVerticalWeekLaout = new LinearLayout(getContext());
