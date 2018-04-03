@@ -1,5 +1,6 @@
 package deu.hlju.dawn.studentattendance.ui.add_student;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -31,8 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AddStudentPresenter extends AddStudentContract.Presenter{
 
-
-    public AddStudentPresenter(Context context, AddStudentContract.View view) {
+    AddStudentPresenter(Context context, AddStudentContract.View view) {
         super(context, view);
     }
 
@@ -93,6 +93,7 @@ public class AddStudentPresenter extends AddStudentContract.Presenter{
 
     }
 
+    @SuppressLint("CheckResult")
     private void uploadStudentMessage(final String name, final String id, final String url) {
         LogUtil.i("AddStudentPresenter", String.format("uploadStudentMessage():name=%s,id=%s,url=%s", name, id, url));
 
@@ -127,12 +128,12 @@ public class AddStudentPresenter extends AddStudentContract.Presenter{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<FaceSetAddResult>() {
                     @Override
-                    public void accept(FaceSetAddResult faceSetAddResult) throws Exception {
+                    public void accept(FaceSetAddResult faceSetAddResult) {
                         view.hideProgress();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         LogUtil.i("AddStudentPresenter", "getFaceDetect():" + throwable.toString());
                         view.hideProgress();
                         if (throwable instanceof BaseException) {

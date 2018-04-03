@@ -17,7 +17,7 @@ public class ShowStudentPresenter extends ShowStudentContract.Presenter {
 
     private List<Student> students;
 
-    public ShowStudentPresenter(Context context, ShowStudentContract.View view) {
+    ShowStudentPresenter(Context context, ShowStudentContract.View view) {
         super(context, view);
     }
 

@@ -16,6 +16,7 @@ import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
 public interface Api {
+
     @FormUrlEncoded
     @POST("detect")
     Observable<FaceDetectResult> getFaceDetect(@FieldMap Map<String, String> fields);

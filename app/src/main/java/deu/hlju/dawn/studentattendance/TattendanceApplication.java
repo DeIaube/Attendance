@@ -16,6 +16,7 @@ import deu.hlju.dawn.studentattendance.config.Constants;
 
 
 public class TattendanceApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();

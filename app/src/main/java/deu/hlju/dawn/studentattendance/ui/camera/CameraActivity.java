@@ -21,7 +21,6 @@ import deu.hlju.dawn.studentattendance.base.BaseActivity;
 
 public class CameraActivity extends BaseActivity implements SurfaceHolder.Callback, CameraContract.View {
 
-
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private Button button;

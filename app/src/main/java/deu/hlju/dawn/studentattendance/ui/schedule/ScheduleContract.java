@@ -9,6 +9,7 @@ import deu.hlju.dawn.studentattendance.base.MvpView;
 import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 
 public interface ScheduleContract {
+
     interface View extends MvpView {
         void showProgress();
         void hideProgress();

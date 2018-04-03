@@ -1,6 +1,7 @@
 package deu.hlju.dawn.studentattendance.config;
 
 public class Constants {
+
     public static final String CLOUD_APP_ID = "toFql8GrRoNwpiV45Luma71S-gzGzoHsz";
     public static final String CLOUD_APP_KEY = "nFfbtfG6iFpjd9BJ7IvFXq2H";
     public static final String FACE_API_KEY = "hQLhVy7AcRRPC7Zth0K6fW_6l7X3myAh";

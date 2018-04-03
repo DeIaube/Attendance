@@ -22,8 +22,6 @@ import deu.hlju.dawn.studentattendance.base.BaseActivity;
 
 public class AddStudnetActivity extends BaseActivity implements AddStudentContract.View {
 
-    private Button mSubmitBtn;
-    private Button mChoicePortraotBtn;
     private EditText mNameEt;
     private EditText mIdEt;
     private ImageView mPortraitIv;
@@ -44,12 +42,12 @@ public class AddStudnetActivity extends BaseActivity implements AddStudentContra
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        mSubmitBtn = findViewById(R.id.submit_btn);
-        mChoicePortraotBtn = findViewById(R.id.choice_portrait_btn);
+        Button submitBtn = findViewById(R.id.submit_btn);
+        Button choicePortraotBtn = findViewById(R.id.choice_portrait_btn);
         mNameEt = findViewById(R.id.name_et);
         mIdEt = findViewById(R.id.id_et);
         mPortraitIv = findViewById(R.id.portrait_iv);
-        mChoicePortraotBtn.setOnClickListener(new View.OnClickListener() {
+        choicePortraotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent("android.intent.action.GET_CONTENT");
@@ -57,7 +55,7 @@ public class AddStudnetActivity extends BaseActivity implements AddStudentContra
                 startActivityForResult(intent, 0);
             }
         });
-        mSubmitBtn.setOnClickListener(new View.OnClickListener() {
+        submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = mNameEt.getText().toString();

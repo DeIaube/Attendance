@@ -6,6 +6,7 @@ import deu.hlju.dawn.studentattendance.base.MvpPresenter;
 import deu.hlju.dawn.studentattendance.base.MvpView;
 
 public interface CameraContract {
+
     interface View extends MvpView{
         void showMsg(String msg);
         void showProgress();

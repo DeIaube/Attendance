@@ -2,7 +2,6 @@ package deu.hlju.dawn.studentattendance.ui.show_recode;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 import com.avos.avoscloud.AVQuery;
 
@@ -45,13 +44,13 @@ public class ShowRecodePresenter extends ShowRecodeContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<AttendanceRecode>>() {
                     @Override
-                    public void accept(List<AttendanceRecode> attendanceRecodes) throws Exception {
+                    public void accept(List<AttendanceRecode> attendanceRecodes) {
                         view.hideProgress();
                         view.loadRecode(attendanceRecodes);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         view.hideProgress();
                         view.showMsg(context.getString(R.string.network_error));
                     }

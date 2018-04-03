@@ -1,5 +1,6 @@
 package deu.hlju.dawn.studentattendance.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn3.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View view) {
                 String path = "/storage/emulated/0/DCIM/Camera/timg (4).jpg";
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn4.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View view) {
                 Request.getSingle().getApi().createFaceset(Request.getSingle().getCreateFacesetPatames())
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn5.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View view) {
                 Request.getSingle().getApi().detailFaceset(Request.getSingle().getDetailFacesetPatames())
@@ -177,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn6.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View view) {
                 Request.getSingle().getApi().removeFaceset(Request.getSingle().getRemoveFacesetPatames("RemoveAllFaceTokens"))
@@ -197,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn7.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View view) {
                 Request.getSingle().getApi().searchFace(Request.getSingle().getSearchPatames("http://lc-tofql8gr.cn-n1.lcfile.com/s1UZLCmCTqQxBzp3CLEabki79k8O4nURRuVj7cCf.jpg"))

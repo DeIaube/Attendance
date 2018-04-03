@@ -11,6 +11,7 @@ import deu.hlju.dawn.studentattendance.bean.RelationRoomPro;
 import deu.hlju.dawn.studentattendance.bean.Student;
 
 public interface ShowRecodeContract {
+
     interface View extends MvpView {
         void showProgress();
         void hideProgress();

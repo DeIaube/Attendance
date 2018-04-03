@@ -15,6 +15,7 @@ import deu.hlju.dawn.studentattendance.bean.Student;
 
 
 public interface ConsoleContract {
+
     interface View extends MvpView {
         void showProgress();
         void hideProgress();

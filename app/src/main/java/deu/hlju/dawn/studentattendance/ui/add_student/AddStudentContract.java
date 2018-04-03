@@ -6,6 +6,7 @@ import deu.hlju.dawn.studentattendance.base.MvpPresenter;
 import deu.hlju.dawn.studentattendance.base.MvpView;
 
 public interface AddStudentContract {
+
     interface View extends MvpView{
         void showProgress();
         void hideProgress();

@@ -1,25 +1,13 @@
 package deu.hlju.dawn.studentattendance.ui.show_recode;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
-
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +24,6 @@ public class ShowRecodeActivity extends BaseActivity implements ShowRecodeContra
 
     private RelationRoomPro mRelationRoomPro;
     private SwipeRefreshLayout mRecodeSwf;
-    private RecyclerView mRecodeRv;
     private ShowRecodeAdapter mAdapter;
     private ShowRecodeContract.Presenter mPresenter;
 
@@ -63,10 +50,10 @@ public class ShowRecodeActivity extends BaseActivity implements ShowRecodeContra
                 mPresenter.loadRecode(mRelationRoomPro);
             }
         });
-        mRecodeRv = findViewById(R.id.recode_rv);
-        mRecodeRv.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recodeRv = findViewById(R.id.recode_rv);
+        recodeRv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShowRecodeAdapter(this, new ArrayList<AttendanceRecode>());
-        mRecodeRv.setAdapter(mAdapter);
+        recodeRv.setAdapter(mAdapter);
         mPresenter = new ShowRecodePresenter(this, this);
         mPresenter.loadRecode(mRelationRoomPro);
     }

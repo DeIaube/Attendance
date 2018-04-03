@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
@@ -88,7 +87,7 @@ public class CameraPresenter extends CameraContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Student>() {
                     @Override
-                    public void accept(Student student) throws Exception {
+                    public void accept(Student student) {
                         LogUtil.i("CameraPresenter", "startFaceSearch():" + student.toString());
                         String name = student.getName();
                         String projectName = mRelationRoomPro.getProject().getName();
@@ -96,7 +95,7 @@ public class CameraPresenter extends CameraContract.Presenter {
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         LogUtil.i("CameraPresenter", "accept():"+throwable.toString());
                         if (throwable instanceof BaseException) {
                             view.showMsg(throwable.getMessage());

@@ -8,7 +8,6 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     private List<RelationRoomPro> relationRoomPros;
     private List<RelationStuPro> relationStuPros;
 
-    public ConsolePresenter(Context context, ConsoleContract.View view) {
+    ConsolePresenter(Context context, ConsoleContract.View view) {
         super(context, view);
     }
 
@@ -77,12 +76,12 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
-                    public void accept(String s) throws Exception {
+                    public void accept(String s) {
                         view.hideProgress();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         view.showMsg(throwable.toString());
                         view.hideProgress();
                     }
@@ -160,12 +159,12 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
-                    public void accept(String s) throws Exception {
+                    public void accept(String s) {
                         loadData();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         view.hideProgress();
                         if (throwable instanceof BaseException) {
                             view.showMsg(throwable.toString());
@@ -241,12 +240,12 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
-                    public void accept(String s) throws Exception {
+                    public void accept(String s) {
                         loadData();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void accept(Throwable throwable) {
                         view.hideProgress();
                         if (throwable instanceof BaseException) {
                             view.showMsg(throwable.toString());
