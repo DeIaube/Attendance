@@ -23,10 +23,7 @@ public interface ConsoleContract {
         void hideCheckPermission();
         void finish();
         void showMsg(String msg);
-        void showProject(List<Project> projects);
-        void showRoom(List<Room> rooms);
-        void shwoRelationStuPro(Map<Student, Set<Project>> studentListMap);
-        void shwoRelationRoomPro(List<RelationRoomPro> timeTablelList);
+        void showListDialog(List<String> data);
     }
 
     abstract class Presenter extends MvpPresenter {

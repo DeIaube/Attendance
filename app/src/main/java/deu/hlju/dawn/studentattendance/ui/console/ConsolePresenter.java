@@ -16,6 +16,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -161,7 +162,11 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     @Override
     protected void showProject() {
         if (projects != null) {
-            view.showProject(projects);
+            List<String> data = new ArrayList<>();
+            for (Project project : projects) {
+                data.add(String.format("课程编号:%s,课程名称:%s", project.getId(), project.getName()));
+            }
+            view.showListDialog(data);
         }
     }
 
@@ -191,7 +196,11 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     @Override
     protected void showRoom() {
         if (rooms != null) {
-            view.showRoom(rooms);
+            List<String> data = new ArrayList<>();
+            for (Project project : projects) {
+                data.add(String.format("教室编号:%s,教室名称:%s", project.getId(), project.getName()));
+            }
+            view.showListDialog(data);
         }
     }
 
@@ -261,7 +270,13 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
                     studentListMap.put(student, projects);
                 }
             }
-            view.shwoRelationStuPro(studentListMap);
+            List<String> data = new ArrayList<>();
+            for (Student student : studentListMap.keySet()) {
+                for (Project project : studentListMap.get(student)) {
+                    data.add(String.format("%s选择课程编号%s的%s", student.getName(), project.getId(), project.getName()));
+                }
+            }
+            view.showListDialog(data);
         }
     }
 
@@ -329,7 +344,13 @@ public class ConsolePresenter extends ConsoleContract.Presenter {
     @Override
     protected void showRelationRoomPro() {
         if (relationRoomPros != null) {
-            view.shwoRelationRoomPro(relationRoomPros);
+            List<String> data = new ArrayList<>();
+            for (RelationRoomPro relationRoomPro : relationRoomPros) {
+                data.add(String.format("%s课程在星期%s的第%s至%s节,地址%s", relationRoomPro.getProject().getName(),
+                        relationRoomPro.getWeek(), relationRoomPro.getStartNum(), relationRoomPro.getEndNum(),
+                        relationRoomPro.getRoom().getName()));
+            }
+            view.showListDialog(data);
         }
     }
 

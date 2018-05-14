@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +32,8 @@ import deu.hlju.dawn.studentattendance.ui.add_student.AddStudnetActivity;
 import deu.hlju.dawn.studentattendance.ui.camera.CameraActivity;
 import deu.hlju.dawn.studentattendance.ui.schedule.ScheduleActivity;
 import deu.hlju.dawn.studentattendance.ui.show_student.ShowStudentActivity;
+import deu.hlju.dawn.studentattendance.ui.view.ItemListDialog;
+import deu.hlju.dawn.studentattendance.util.LogUtil;
 import deu.hlju.dawn.studentattendance.util.ScheduleUtil;
 
 public class ConsoleActivity extends BaseActivity implements ConsoleContract.View {
@@ -261,27 +265,10 @@ public class ConsoleActivity extends BaseActivity implements ConsoleContract.Vie
     }
 
     @Override
-    public void showProject(List<Project> projects) {
-        Log.i("test", projects.toString());
+    public void showListDialog(List<String> data) {
+        ItemListDialog.create(this, data).show();
+        LogUtil.i("showListDialog", data.toString());
     }
 
-    @Override
-    public void showRoom(List<Room> rooms) {
-        Log.i("test", rooms.toString());
-    }
-
-    @Override
-    public void shwoRelationStuPro(Map<Student, Set<Project>> studentSetMap) {
-        for (Student student : studentSetMap.keySet()) {
-            Log.i("test", student.getName() + " : " + studentSetMap.get(student).toString());
-        }
-    }
-
-    @Override
-    public void shwoRelationRoomPro(List<RelationRoomPro> timeTablelList) {
-        for (RelationRoomPro timeTableModel : timeTablelList) {
-            Log.i("test", timeTableModel.toString());
-        }
-    }
 
 }
